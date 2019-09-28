@@ -1,0 +1,27 @@
+source ~/.config/neomutt/colors.linux
+source ~/.config/neomutt/gpg.rc
+set imap_user=`pass neomutt/imap_user`
+set imap_pass=`pass neomutt/imap_pass`
+set folder=imaps://imap.gmail.com/
+set spoolfile=+INBOX
+set postponed="+[Gmail]/Drafts"
+set sleep_time=0
+set beep=no
+set editor=nvim
+auto_view text/html
+alternative_order text/enriched text/plain text/html text
+set sort=reverse-date
+set sidebar_visible
+set sidebar_format="%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats
+mailboxes =INBOX =[Gmail]/Sent\ Mail =[Gmail]/Drafts =[Gmail]/Spam =[Gmail]/Trash
+set realname="Filip Szczepanek"
+set from=`pass neomutt/imap_user`
+set smtp_url="smtps://`pass neomutt/imap_user`@smtp.gmail.com:465/"
+set smtp_pass=`pass neomutt/imap_pass`
+set smtp_authenticators="gssapi:login"
+bind index,pager \CP sidebar-prev
+bind index,pager \CN sidebar-next
+bind index,pager \CO sidebar-open
+set header_cache="~/.mail/headers"
+set message_cachedir="~/.mail/bodies"

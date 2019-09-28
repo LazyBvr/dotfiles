@@ -1,0 +1,57 @@
+#!/usr/bin/perl
+
+use 5.030;
+use strict;
+use warnings;
+use autodie;
+use Cwd;
+use File::Basename;
+use File::Copy;
+use File::Path;
+use File::Spec;
+
+sub prompt {
+  my ($question) = @_;
+  while (1) {
+    print "$question [y/n]: ";
+    chomp (my $answer = lc <STDIN>);
+    return 1 if $answer eq 'y';
+    return 0 if $answer eq 'n';
+  }
+}
+
+my $CWD = cwd;
+my $TARGET = $ENV{'HOME'};
+my $SCRIPT = File::Spec->rel2abs(__FILE__);
+my $FORCE = grep /^-f|--force$/, @ARGV;
+my @dirs = (cwd);
+
+while (scalar @dirs > 0) {
+  my $current = shift @dirs;
+
+  for (glob "$current/{.*,*}") {
+    my $rel = basename $_;
+    next if $rel =~ /^[.]{1,2}$/ or $SCRIPT eq $_;
+    
+    if (-d $_) {
+      push @dirs, $_;
+      next;
+    }
+
+    my $target_file = File::Spec->catdir($TARGET, $_ =~ s/$CWD//r);
+    my $target_dir = dirname $target_file;
+    if (mkpath $target_dir) {
+      say "==> The directory $target_dir does not exist. Creating." 
+    }
+    if (-e $target_file) {
+      if (not $FORCE and prompt("The file $target_file exists. Back up?")) {
+        move $target_file, "$target_file.old";
+      } else {
+        unlink $target_file;
+      }
+    }
+    symlink $_, $target_file;
+  }
+}
+
+say 'Done.'
