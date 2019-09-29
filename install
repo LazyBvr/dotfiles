@@ -23,15 +23,16 @@ sub prompt {
 my $CWD = cwd;
 my $TARGET = $ENV{'HOME'};
 my $SCRIPT = File::Spec->rel2abs(__FILE__);
-my $FORCE = grep /^-f|--force$/, @ARGV;
+my @EXCLUDE = ($SCRIPT, "$CWD/install", "$CWD/.git", "$CWD/README.md", "$CWD/LICENSE");
+my $FORCE = grep { $_ eq '-f' or $_ eq '--force'} @ARGV;
 my @dirs = (cwd);
 
 while (scalar @dirs > 0) {
   my $current = shift @dirs;
 
   for (glob "$current/{.*,*}") {
-    my $rel = basename $_;
-    next if $rel =~ /^[.]{1,2}$/ or $SCRIPT eq $_;
+    my $fullpath = $_;
+    next if (basename $_) =~ /^[.]{1,2}$/ or grep { $fullpath eq $_ } @EXCLUDE;
     
     if (-d $_) {
       push @dirs, $_;
