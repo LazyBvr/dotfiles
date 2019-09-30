@@ -62,8 +62,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char *volupcmd[]   = { "volume", "up", NULL };
 static const char *voldowncmd[] = { "volume", "down", NULL };
-static const char *shutdowncmd[] = { "systemctl", "poweroff", NULL };
-static const char *rebootcmd[] = { "systemctl", "reboot", NULL };
+static const char *shutdowncmd[] = { "sudo", "shutdown", "-h", "now", NULL };
+static const char *rebootcmd[] = { "sudo", "shutdown", "-r", "now", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
