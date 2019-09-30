@@ -1,0 +1,3 @@
+source ~/.mkshrc.d/history
+source ~/.mkshrc.d/prompt
+source ~/.mkshrc.d/aliases

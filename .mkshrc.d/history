@@ -1,0 +1,2 @@
+HISTFILE=~/.mksh_history
+HISTSIZE=5000

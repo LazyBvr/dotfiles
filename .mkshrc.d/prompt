@@ -1,0 +1,38 @@
+#!/bin/mksh
+
+function prompt {
+  readonly STATUS=$?
+  
+  #git status > /dev/null 2>&1
+  #readonly IS_GIT=$?
+  #if [[ $IS_GIT ]]; then
+  #  readonly GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  #  [[ ! -z $(git -uno --porcelain) ]]
+  #  readonly GIT_CHANGED=$?
+  #  [[ ! -z $(git --porcelain) ]]
+  #  readonly GIT_DIRTY=$?
+  #fi
+
+  readonly GREEN=$(tput setaf 2)
+  readonly YELLOW=$(tput setaf 3)
+  readonly BLUE=$(tput setaf 4)
+  readonly NORMAL=$(tput sgr0)
+  
+  CWD="$(pwd)"
+  CWD=${CWD//$HOME/'~'}
+  
+  print -n "[$BLUE$CWD$NORMAL]"
+
+  if git status > /dev/null 2>&1; then
+    print -n '['
+    [[ -z $(git status -uno --porcelain) ]] && \
+      print -n $GREEN || print -n $YELLOW
+    git rev-parse --abbrev-ref HEAD | tr -d ' \n'
+    [[ -z $(git status --porcelain | grep '?') ]] && \
+      print -n '*'
+    print -n "$NORMAL]"
+  fi
+  print -n ' '
+}
+
+PS1='$(prompt)'

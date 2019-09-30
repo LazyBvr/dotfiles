@@ -1,0 +1,15 @@
+#!/bin/mksh
+
+alias xin='sudo xbps-install -S'
+alias xup='sudo xbps-install -Su'
+alias xre='sudo xbps-remove -R'
+alias xcl='sudo xbps-remove -o'
+alias xse='xbps-query -Rs'
+alias xsf='xlocate'
+alias xpi='xbps-query -Rs'
+
+alias vim='nvim'
+
+alias ls='ls --color=auto'
+alias ll='ls -hl'
+alias la='ls -ahl'
