@@ -28,7 +28,7 @@ function prompt {
     [[ -z $(git status -uno --porcelain) ]] && \
       print -n $GREEN || print -n $YELLOW
     git rev-parse --abbrev-ref HEAD | tr -d ' \n'
-    [[ -z $(git status --porcelain | grep '?') ]] && \
+    [[ ! -z $(git status --porcelain | grep '?') ]] && \
       print -n '*'
     print -n "$NORMAL]"
   fi
